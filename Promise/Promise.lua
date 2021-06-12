@@ -11,10 +11,11 @@
   -- Promise.Reject(... -> args): Promise
   -- Promise.Resolve(... -> args): Promise
   -- Promise.All(promises: Table): Promise
-
+  
   @methods
   -- Promise:Then(callback: Function): table
   -- Promise:Catch(callback: Function): table
+  -- Promise:Finally(callback: Function): table
 
   -- Promise:Await(): table
   -- Promise:Start(): void
