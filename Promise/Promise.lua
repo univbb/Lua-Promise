@@ -14,6 +14,7 @@
 
   @methods
   -- Promise:Await()
+  -- Promise:Start()
 ]]
 -- * Priority
 local Status = {
