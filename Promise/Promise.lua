@@ -13,8 +13,13 @@
   -- Promise.All(promises: Table)
 
   @methods
+  -- Promise:Then()
+  -- Promise:Catch()
+
   -- Promise:Await()
   -- Promise:Start()
+  -- Promise:GetStatus()
+  -- Promise:Cancel()
 ]]
 -- * Priority
 local Status = {
