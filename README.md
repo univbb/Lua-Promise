@@ -2,6 +2,7 @@
 
 Promise class implemented on Lua, based on JavaScript Promise class
 
+Example:
 ```lua
 local promise = Promise.new(function(resolve, reject) 
   resolve()
