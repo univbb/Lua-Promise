@@ -5,21 +5,21 @@
   @desc Promise class implemented on Lua, based on JavaScript Promise class
 
   @constructor
-  -- Promise.new(callback: Function) < constructor
+  -- Promise.new(callback: Function)
 
   @static
-  -- Promise.Reject(... -> args)
-  -- Promise.Resolve(... -> args)
-  -- Promise.All(promises: Table)
+  -- Promise.Reject(... -> args): Promise
+  -- Promise.Resolve(... -> args): Promise
+  -- Promise.All(promises: Table): Promise
 
   @methods
-  -- Promise:Then()
-  -- Promise:Catch()
+  -- Promise:Then(callback: Function): table
+  -- Promise:Catch(callback: Function): table
 
-  -- Promise:Await()
-  -- Promise:Start()
-  -- Promise:GetStatus()
-  -- Promise:Cancel()
+  -- Promise:Await(): table
+  -- Promise:Start(): void
+  -- Promise:GetStatus(): boolean
+  -- Promise:Cancel(): void
 ]]
 -- * Priority
 local Status = {
