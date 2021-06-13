@@ -20,7 +20,7 @@
   
   -- Promise:Await(): table
   -- Promise:Start(): void
-  -- Promise:GetStatus(): boolean
+  -- Promise:GetStatus(): string
   -- Promise:Cancel(): void
 ]]
 -- * Priority
