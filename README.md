@@ -12,6 +12,8 @@ promise:Then(function()
   print('Resolved!')
 end):Catch(function() 
   print('Rejected!')
+end):Finally(function() 
+  print('Finally!')
 end)
 
 promise:Start()
