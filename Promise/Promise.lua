@@ -11,6 +11,7 @@
   -- Promise.Reject(... -> args): Promise
   -- Promise.Resolve(... -> args): Promise
   -- Promise.All(promises: Table): Promise
+  -- Promise.Promisify(func: Function, ... -> args): Promise
   
   @methods
   -- Promise:Then(callback: Function): table
@@ -110,6 +111,21 @@ function Promise.reject(...)
 
   return Promise.new(function(resolve, reject) 
     reject(unpack(args))
+  end)
+end
+
+
+function Promise.promisify(func, ...)
+  local args = {...}
+
+  return Promise.new(function(resolve, reject) 
+    local result = func(unpack(args))
+
+    if(result) then
+      resolve(result)
+    else
+      reject(result)
+    end
   end)
 end
 
@@ -257,6 +273,7 @@ end
 Promise.New = Promise.new
 Promise.Await = Promise.await
 Promise.Start = Promise.Go
+Promise.Promisify = Promise.promisify
 
 -- * static
 Promise.All = Promise.all
