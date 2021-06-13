@@ -17,7 +17,7 @@
   -- Promise:Then(callback: Function): table
   -- Promise:Catch(callback: Function): table
   -- Promise:Finally(callback: Function): table
-
+  
   -- Promise:Await(): table
   -- Promise:Start(): void
   -- Promise:GetStatus(): boolean
@@ -75,6 +75,7 @@ function Promise.all(promises_tab)
     if(promise.Type) then
       if(promise.Type == 'Promise') then
         if(promise.Executed) then return end
+        if(rejected) then break end
 
         local ps = promise:Then(function(...) 
           promises[promise] = {...}
@@ -82,7 +83,8 @@ function Promise.all(promises_tab)
           rejected = true
         end)
 
-        ps:Go():Await()
+        ps:Start()
+        ps:Await()
       end
     end
   end
