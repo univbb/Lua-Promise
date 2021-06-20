@@ -20,7 +20,7 @@
   
   -- Promise:Await(): table
   -- Promise:Start(): void
-  -- Promise:GetStatus(): string
+  -- Promise:GetStatus(): boolean
   -- Promise:Cancel(): void
 ]]
 -- * Priority
@@ -174,6 +174,9 @@ function Promise:_rejectAll(...)
 
     return
   end
+  if(self.Status == Status.Cancelled) then 
+    return
+  end
   
   local args = {...}
   local thread = coroutine.wrap(function()
@@ -190,6 +193,9 @@ end
 
 function Promise:_resolveAll(...)
   if(not self._can) then return end
+  if(self.Status == Status.Cancelled) then 
+    return
+  end
 
   local args = {...}
   local thread = coroutine.wrap(function()
@@ -231,7 +237,6 @@ end
 function Promise:Go()
   if(self.Executed) then return end
   if(self.Status == Status.Cancelled) then 
-    self:_finally()
     return
   end
 
