@@ -77,14 +77,16 @@ function Promise.all(promises_tab)
         if(promise.Executed) then return end
         if(rejected) then break end
 
-        local ps = promise:Then(function(...) 
-          promises[promise] = {...}
-        end):Catch(function() 
-          rejected = true
-        end)
+        local myPromise = promise
+          :Then(function(...) 
+            promises[promise] = {...}
+          end)
+          :Catch(function() 
+            rejected = true
+          end)
 
-        ps:Start()
-        ps:Await()
+        myPromise:Start()
+        myPromise:Await()
       end
     end
   end
