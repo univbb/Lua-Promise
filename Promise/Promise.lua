@@ -240,7 +240,7 @@ function Promise:await()
   repeat
   until self.Status == Status.Resolved or self.Status == Status.Rejected or self.Status == Status.Cancelled
 
-  return unpack(self._resolveValues or self._rejectValues)
+  return unpack(self._resolveValues or self._rejectValues or {})
 end
 
 
