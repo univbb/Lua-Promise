@@ -140,8 +140,7 @@ end
 
 function Promise:Then(callback)
   table.insert(self._thens, function(...)
-    callback(...)
-    return self._res
+    return self._res, callback(...)
   end)
   return self
 end
@@ -149,8 +148,7 @@ end
 
 function Promise:Catch(callback)
   table.insert(self._catches, function(...)
-    callback(...)
-    return self._err
+    return self._err, callback(...)
   end)
   return self
 end
@@ -178,10 +176,15 @@ function Promise:_rejectAll(...)
     return
   end
   
-  local args = {...}
+  local a = {...}
   local thread = coroutine.wrap(function()
     for _,callback in next,self._catches do
-      return callback(unpack(args))
+      local args = self._lastArgs or a
+      
+      pcall(function()
+        self._lastArgs = {callback(unpack(args))}
+        table.remove(self._lastArgs, 1)
+      end)
     end
   end)
 
@@ -197,10 +200,15 @@ function Promise:_resolveAll(...)
     return
   end
 
-  local args = {...}
+  local a = {...}
   local thread = coroutine.wrap(function()
     for _,callback in next,self._thens do
-      callback(unpack(args))
+      local args = self._lastArgs or a
+      
+      pcall(function()
+        self._lastArgs = {callback(unpack(args))}
+        table.remove(self._lastArgs, 1)
+      end)
     end
   end)
 
