@@ -9,7 +9,7 @@ end) -- Promise.Resolve(...) or Promise.Reject(...)
 promise:Then(function() 
   print('Promise resolved!')
 end):Catch(function() 
-  print('Oh no! We got an reject')
+  print('Oh no! Promise was rejected')
 end)
 
 -- Initializing promise
