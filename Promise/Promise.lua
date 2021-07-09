@@ -8,6 +8,8 @@
   -- Promise.new(callback: Function)
 
   @static
+  -- Promise.Is(promise: Promise): boolean
+
   -- Promise.Reject(... -> args): Promise
   -- Promise.Resolve(... -> args): Promise
   -- Promise.All(promises: Table): Promise
@@ -41,7 +43,6 @@ local Errors = {
 
 -- * Class
 local Promise = {}
-Promise.Type = 'Promise'
 Promise.__index = Promise
 
 
@@ -67,13 +68,18 @@ end
 
 
 -- * static / utility
+function Promise.Is(promise)
+  return (type(promise) == 'table' and getmetatable(promise) == Promise)
+end
+
+
 function Promise.all(promises_tab)
   local promises = {}
   local rejected = false
 
   for _,promise in next,promises_tab do
     if(promise.Type) then
-      if(promise.Type == 'Promise') then
+      if(Promise.Is(promise)) then
         if(promise.Executed) then return end
         if(rejected) then break end
 
