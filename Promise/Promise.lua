@@ -24,6 +24,8 @@
   -- Promise:Start(): void
   -- Promise:GetStatus(): boolean
   -- Promise:Cancel(): void
+
+  Use Promise:Start or Promise:Go to start a promise!
 ]]
 -- * Priority
 local Status = {
