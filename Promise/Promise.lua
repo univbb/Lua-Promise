@@ -14,11 +14,11 @@
   -- Promise.Resolve(... -> args): Promise
   -- Promise.All(promises: Table): Promise
   -- Promise.Promisify(func: Function, ... -> args): Promise
-  
+
   @methods
-  -- Promise:Then(callback: Function): table
-  -- Promise:Catch(callback: Function): table
-  -- Promise:Finally(callback: Function): table
+  -- Promise:Then(callback: Function): Promise
+  -- Promise:Catch(callback: Function): Promise
+  -- Promise:Finally(callback: Function): Promise
   
   -- Promise:Await(): table
   -- Promise:Start(): void
@@ -40,6 +40,10 @@ local Errors = {
   ['UnhandledPromiseRejection'] = {
     Name = 'UnhandledPromiseRejection',
     Desc = 'Promise rejected without :Catch'
+  },
+  ['PromiseCancelled'] = {
+    Name = 'PromiseCancelled',
+    Desc = 'Cancelled promises can\'t be started'
   }
 }
 
@@ -170,15 +174,17 @@ function Promise:Finally(callback)
 end
 
 
-function Promise:_createError(errText)
-  error(errText)
+function Promise:_throwError(errorType)
+  error(
+    ('%s: "%s"'):format(Errors[errorType].Name, Errors[errorType].Desc)
+  )
 end
 
 
 function Promise:_rejectAll(...)
   if(not self._can) then return end
   if(#self._catches == 0) then
-    self:_createError(Errors.UnhandledPromiseRejection.Name .. ': "' .. 'No "Promise::Catch" found' .. '"')
+    self:_throwError('UnhandledPromiseRejection')
 
     return
   end
@@ -255,6 +261,7 @@ end
 function Promise:Go()
   if(self.Executed) then return end
   if(self.Status == Status.Cancelled) then 
+    self:_throwError('PromiseCancelled')
     return
   end
 
@@ -278,7 +285,7 @@ function Promise:Go()
     self._err = err
 
     if(#self._catches == 0) then
-      print(Errors.UnhandledPromiseRejection.Name .. ': "' .. self._err .. '"')
+      self:_throwError('UnhandledPromiseRejection')
     else
       self:_rejectAll(err)
     end
